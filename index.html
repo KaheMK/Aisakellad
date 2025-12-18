@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <title>Pleieritabel + Admin-vaade</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Päis -->
+  <div id="header">
+    <div class="header-row">
+      <h2>VÕTA või JÄTA!</h2>
+      <div class="header-actions">
+         </div> 
+       <div class="banner-container">
+      <div id="bannerText">🎄 HÄID JÕULE! 🎅</div>
+    </div>
+        <!-- Mailto nupp ümbriku ikooniga -->
+        <a href="mailto:info@kahem.info" class="mailto-btn" title="Saada meil">✉</a>
+        <!-- Loe siit nupp -->
+        <button id="rulesBtn" class="rules-btn" title="Loe juhiseid">📖 Loe siit</button>
+        <!-- Admin vaate avamine -->
+        <button id="adminBtn" class="admin-btn" title="Ava admin-vaade">🔒 Admin</button>
+      </div>
+       
+
+    <!-- Sõnumi postkast päises -->
+    <form id="postkast" class="postkast">
+      <input type="text" id="postMessage" placeholder="Sisesta sõnum otsepostituseks (salvestub Messages tabelisse)">
+      <button type="submit">Saada</button>
+    </form>
+  </div>
+
+  <!-- Juhiste modal -->
+  <div id="rulesModal" class="modal">
+    <div class="modal-content">
+      <h3>Lehe eeskirjad ja juhised</h3>
+      <div class="modal-body">
+        <p>
+          • Kasuta pleieri nuppe ainult ühe loo korraga.<br>
+          • Hinnang tärnidega (★★★★★) salvestub tabelisse.<br>
+          • Kommentaari Salvesta nupp lisab kirje Messages tabelisse, seotuna loo ID-ga.<br>
+          • Päise sõnumid salvestuvad Messages tabelisse song_id väärtusega null.<br>
+          • Lae alla nupp kasutab Supabase Storage’i allkirjastatud linke.<br>
+          • Admin-vaade on mõeldud ainult sulle — uuendab ja kuvab Messages kirjeid.
+        </p>
+      </div>
+      <div class="modal-actions">
+        <button id="closeModal">Sulge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Laulude tabel -->
+  <h1>Laulude tabel</h1>
+  <table id="songsTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Pealkiri</th>
+        <th>Pleier</th>
+        <th>Hinnang</th>
+        <th>Kommentaar</th>
+        <th>Lae alla</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<!-- Admin-vaade -->
+<div id="adminPanel" class="admin-panel">
+  <div class="admin-header">
+    <h3>Admin-vaade</h3>
+    <div class="admin-controls">
+      <select id="msgFilter">
+        <option value="all">Kõik</option>
+        <option value="header">Ainult päise sõnumid</option>
+        <option value="song">Ainult loo kommentaarid</option>
+      </select>
+      <input type="text" id="msgSearch" placeholder="Otsi sõnumi tekstist">
+      <button id="msgRefresh">Värskenda</button>
+      <button id="adminClose">Sulge</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <!-- Messages tabel -->
+    <h3>Messages tabel</h3>
+    <table id="messagesTable" border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse:collapse;">
+      <thead style="background:#f0f0f0;">
+        <tr>
+          <th>ID</th>
+          <th>Created At</th>
+          <th>Message</th>
+          <th>Song ID</th>
+          <th>User ID</th>
+        </tr>
+      </thead>
+      <tbody id="messages-body"></tbody>
+    </table>
+  </div>
+
+  <div class="admin-content">
+    <!-- SongNotes tabel -->
+    <h3>SongNotes tabel</h3>
+    <table id="notesTable" border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse:collapse;">
+      <thead style="background:#f0f0f0;">
+        <tr>
+          <th>ID</th>
+          <th>Pealkiri + Description</th>
+          <th>Salvesta</th>
+        </tr>
+      </thead>
+      <tbody id="notes-body"></tbody>
+    </table>
+  </div>
+</div>
+
+    <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="player.js"></script>
+  <script src="admin.js"></script>
+  
+
+<!-- Liikuva bänneri animatsioon -->
+<script>
+// Reguleeritavad parameetrid
+const speed = 2;            // pikslit kaadri kohta (kiirus)
+const repeatCount = 3;      // mitu korda järjest läbib
+const pauseTime = 2000;     // paus millisekundites iga tsükli sees
+const cyclePause = 60000;   // paus millisekundites tsüklite vahel (nt 60 sekundit)
+
+const banner = document.getElementById("bannerText");
+const container = document.querySelector(".banner-container");
+
+function runCycle() {
+  let count = 0;
+
+  function animateBanner() {
+    let pos = -banner.offsetWidth;
+    banner.style.left = pos + "px";
+
+    function frame() {
+      pos += speed;
+      banner.style.left = pos + "px";
+
+      if (pos < container.offsetWidth) {
+        requestAnimationFrame(frame);
+      } else {
+        count++;
+        if (count < repeatCount) {
+          setTimeout(animateBanner, pauseTime);
+        } else {
+          // jääb keskele seisma tsükli lõpus
+          banner.style.left = (container.offsetWidth / 2 - banner.offsetWidth / 2) + "px";
+          // alustame uut tsüklit pärast cyclePause
+          setTimeout(runCycle, cyclePause);
+        }
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  animateBanner();
+}
+
+// Käivitame esimese tsükli
+runCycle();
+
+</script>
+</body>
+</html>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+

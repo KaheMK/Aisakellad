@@ -1,0 +1,343 @@
+/* Üldine */
+body {
+  font-family: system-ui, sans-serif;
+  padding: 20px;
+}
+h1 {
+  margin-top: 20px;
+}
+
+/* Päis */
+#header {
+  background: #ec4a31;
+  padding: 12px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+.mailto-btn,
+.rules-btn,
+.admin-btn {
+  background: #e6eefc;
+  color: #1546a0;
+  border: 1px solid #c7d7f4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mailto-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+}
+.postkast {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+.postkast input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.postkast button {
+  padding: 8px 12px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  width: min(680px, 92vw);
+  margin: 8% auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+.modal-content h3 {
+  margin: 0;
+  padding: 14px 16px;
+  background: #f0f4ff;
+  border-bottom: 1px solid #dee6fb;
+}
+.modal-body {
+  padding: 16px;
+  color: #333;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+}
+.modal-actions button {
+  padding: 8px 12px;
+  border: none;
+  background: #1546a0;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Tabel */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 16px;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  vertical-align: top;
+}
+th {
+  background: #f6f6f6;
+}
+.title-cell {
+  width: 320px;
+  font-weight: 600;
+}
+
+/* Tekstialad */
+textarea.description {
+  width: 100%;
+  min-height: 60px;
+  border-radius: 4px;
+  padding: 6px;
+  font-family: inherit;
+  font-size: 0.95em;
+}
+
+/* Anon (lukus) */
+textarea.description.locked {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+/* Admin (avatud) */
+textarea.description.admin {
+  background-color: #fff8dc;
+  color: #000;
+  border: 1px solid #084203;
+}
+
+/* Progress bar */
+.progress {
+  width: 100%;
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width 0.2s linear;
+}
+
+/* Nupud */
+.controls {
+  white-space: nowrap;
+}
+.controls button {
+  border: none;
+  padding: 6px 10px;
+  margin-right: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.play { background: #4caf50; color: white; }
+.pause { background: #f44336; color: white; }
+.download { background: #2196f3; color: white; }
+.time, .plays {
+  margin-left: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* Tärnid */
+.stars-row span {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 20px;
+}
+.stars-row span.active {
+  color: gold;
+}
+
+/* Kommentaarid */
+.comment {
+  width: 280px;
+  height: 64px;
+}
+.comment-actions {
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+}
+.comment-actions button {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.comment-actions button.save-comment {
+  background: #1546a0;
+  color: white;
+  border: none;
+}
+.comment-actions button.clear-comment {
+  background: #eee;
+}
+
+/* Admin paneel */
+.admin-panel {
+  display: none;
+  margin-top: 24px;
+  border: 1px solid #e37d7d;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.admin-header {
+  background: #f0f4ff;
+  border-bottom: 1px solid #dee6fb;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.admin-controls {
+  display: flex;
+  gap: 8px;
+}
+.admin-controls input,
+.admin-controls select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.admin-controls button {
+  padding: 6px 10px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.admin-content {
+  padding: 10px;
+}
+#messagesTable th {
+  background: #f9faff;
+}
+#messagesTable td {
+  font-size: 0.95em;
+}
+.banner-container {
+  flex: 1; /* täidab tühja ala päises */
+  overflow: hidden;
+  position: relative;
+  background: #cce6ff; /* pastelne sinine taust */
+  border-radius: 6px;
+  margin: 0 12px;
+  height: 40px;
+}
+
+#bannerText {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 1.4em;
+  font-weight: bold;
+  background: linear-gradient(90deg, green, red, white);
+  background-clip: text;              /* standard */
+  -webkit-background-clip: text;      /* vendor prefix */
+  -webkit-text-fill-color: transparent;
+}
+
+.kihelkonna-banners 
+.header-row {
+  display: flex;
+  flex-wrap: wrap;       /* lubab väiksel ekraanil murduda */
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.header-row h1 {
+  margin: 0;
+  flex: 1 1 100%;        /* mobiilis võtab täislaiuse */
+  font-size: 1.4em;
+}
+
+/* Bannerid kõrvuti, aga paindlikud */
+.banner {
+  flex: 1 1 45%;         /* igaüks ~pool laiust, kohandub ekraaniga */
+  min-width: 120px;      /* ei kahane liiga väikeseks */
+  height: 30px;          /* madalam mobiilisõbralik kõrgus */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-size: 60px 60px;
+  background-repeat: repeat-x;
+}
+
+/* Lääne-Nigula värvid */
+.banner.laane-nigula .chevron {
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    135deg,
+    #b00000 0 20px,   /* punane – lai */
+    #000000 20px 35px,/* must – lai */
+    #ffffff 35px 50px,/* valge – lai */
+    #006400 50px 55px,/* roheline – kitsas */
+    #0000aa 55px 60px /* sinine – kitsas */
+  );
+}
+
+/* Ridala värvid */
+.banner.ridala .chevron {
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    135deg,
+    #b00000 0 20px,   /* punane – lai */
+    #ffffff 20px 35px,/* valge – lai */
+    #000000 35px 50px,/* must – lai */
+    #ffd700 50px 55px,/* kollane – kitsas */
+    #006400 55px 60px /* roheline – kitsas */
+  );
+}
+
+
+
+
+
+
+

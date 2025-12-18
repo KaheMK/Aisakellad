@@ -1,0 +1,17 @@
+{
+  "name": "music-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Untitled-1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+
+  "dependencies": {
+    "@supabase/supabase-js": "^2.87.1"
+  }
+}
