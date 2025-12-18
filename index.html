@@ -59,20 +59,48 @@ o	Erisoovid ja muu isiklik ikka postkasti✉️.<br>
   </div>
 
   <!-- Laulude tabel -->
-  <h1>Laulude tabel</h1>
-  <table id="songsTable">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Pealkiri</th>
-        <th>Pleier</th>
-        <th>Hinnang</th>
-        <th>Kommentaar</th>
-        <th>Lae alla</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+ <div class="kihelkonna-banners">
+  <div class="header-row">
+    <h1>Laulude tabel</h1>
+
+ <!-- QR-nupp -->
+<button class="qr-btn" onclick="document.getElementById('qrModal').style.display='block'">
+  Ava QR-kood
+</button>
+
+<!-- Modal -->
+<div id="qrModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('qrModal').style.display='none'">&times;</span>
+    <h2>Skänni QR</h2>
+    <img src="qrcode-koopia.png" alt="QR kood: Jõulueri" width="220" height="220">
+    <p><a href="https://kahemk.github.io/Aisakellad/">Aisakellad leht</a></p>
+  </div>
+</div>
+
+    <!-- Bännerid -->
+    <div class="banner laane-nigula">
+      <div class="chevron"></div>
+    </div>
+    <div class="banner ridala">
+      <div class="chevron"></div>
+    </div>
+  </div>
+</div>
+
+<table id="songsTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Pealkiri</th>
+      <th>Pleier</th>
+      <th>Hinnang</th>
+      <th>Kommentaar</th>
+      <th>Lae alla</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
 <!-- Admin-vaade -->
 <div id="adminPanel" class="admin-panel">
@@ -183,6 +211,7 @@ runCycle();
 
 
   
+
 
 
 
