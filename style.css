@@ -6,7 +6,12 @@ body {
 h1 {
   margin-top: 20px;
 }
-
+/* Üldine modal raamistik */ 
+.modal { display: none; 
+        position: fixed; 
+        inset: 0; 
+        background: rgba(0,0,0,0.35); 
+        z-index: 1000; }
 /* Päis */
 #header {
   background: #ec4a31;
@@ -376,6 +381,7 @@ textarea.description.admin {
   cursor: pointer;
 }
 .close:hover { color: red; }
+
 
 
 
