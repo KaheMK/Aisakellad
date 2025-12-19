@@ -1,7 +1,10 @@
 // Supabase ühendus
 import { supabase } from "./supabaseClient.js";
-
-
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
 
 let audio = null;
 let progressInterval = null;
@@ -10,7 +13,7 @@ let progressInterval = null;
 async function loadTable() {
   const { data, error } = await supabase
     .from("Songs1")
-    .select("id, title, file, rating, rating_clicks, plays, downloads, comment")
+    .select("id, title, file, rating, rating_clicks, plays, downloads, comment, duration")
     .order("id");
 
   if (error) {
@@ -46,7 +49,7 @@ async function loadTable() {
         <button class="pause">⏸</button>
         <span class="plays">Kuulatud: ${song.plays ?? 0}x</span>
         <div class="progress"><div class="progress-bar"></div></div>
-        <span class="time">0:00</span> / <span class="duration">0:00</span>
+       <span class="time">0:00</span> / <span class="duration">${formatTime(song.duration)}</span>
       </td>
       <td>
         <div class="stars-row">
@@ -212,6 +215,7 @@ supabase.channel('messages-changes')
   .subscribe();
 
 loadTable()
+
 
 
 
