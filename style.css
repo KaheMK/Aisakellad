@@ -275,7 +275,7 @@ textarea.description.admin {
   white-space: nowrap;
   font-size: 1.4em;
   font-weight: bold;
-  background: linear-gradient(90deg, green, red, white);
+  background: linear-gradient(90deg, green, yellow, white);
   background-clip: text;              /* standard */
   -webkit-background-clip: text;      /* vendor prefix */
   -webkit-text-fill-color: transparent;
