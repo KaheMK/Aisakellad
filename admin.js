@@ -198,13 +198,42 @@ async function loadNotes() {
 
 
 
-// 🔔 Realtime kuulamine Messages tabelile
-supabase.channel('messages-changes')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'Messages' }, payload => {
-    console.log("Messages muutus:", payload);
-    loadMessages();
-  })
-  .subscribe();
+// === 🔔 REALTIME KUULAMINE MESSAGES TABELILE (PARANDATUD) ===
+
+// 1. Loome funktsiooni, mis paneb kanali turvaliselt püsti
+function algatRealtimeKuulamine() {
+  // Kontrollime, et me ei hakkaks looma uut kanalit, kui see on juba olemas
+  const olemasolevKanal = supabase.getChannels().find(ch => ch.topic === 'realtime:public:Messages');
+  if (olemasolevKanal) {
+    console.log("Realtime kanal on juba aktiivne, uut ei loo.");
+    return;
+  }
+
+  console.log("⏳ Algatatakse unikaalne Realtime kuulamine Messages tabelile...");
+
+  supabase
+    .channel('messages-changes')
+    .on(
+      'postgres_changes', 
+      { 
+        event: '*', 
+        schema: 'public', 
+        table: 'Messages' 
+      }, 
+      payload => {
+        console.log("🔔 Messages muutus serveris:", payload);
+        // Käivitame sõnumite värskenduse, skipQuery=true hoiab ära otsingu katkemise
+        loadMessages(true); 
+      }
+    )
+    .subscribe((status) => {
+      console.log("📡 Realtime ühenduse staatus:", status);
+    });
+}
+
+// 2. Käivitame kuulamise kohe, kui see js fail brauseris laetakse
+algatRealtimeKuulamine();
+
 
 
 
