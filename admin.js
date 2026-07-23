@@ -198,41 +198,56 @@ async function loadNotes() {
 
 
 
-// === 🔔 REALTIME KUULAMINE MESSAGES TABELILE (PARANDATUD) ===
+// === 🔔 REALTIME KUULAMINE MESSAGES TABELILE (POMMIKINDEL VERSIOON) ===
 
-// 1. Loome funktsiooni, mis paneb kanali turvaliselt püsti
+// Loome täiesti eraldiseisva globaalse lipu, mida keegi teine ei puutu
+if (typeof window.realtimeAlgatatud === 'undefined') {
+  window.realtimeAlgatatud = false;
+}
+
 function algatRealtimeKuulamine() {
-  // Kontrollime, et me ei hakkaks looma uut kanalit, kui see on juba olemas
-  const olemasolevKanal = supabase.getChannels().find(ch => ch.topic === 'realtime:public:Messages');
-  if (olemasolevKanal) {
-    console.log("Realtime kanal on juba aktiivne, uut ei loo.");
+  // Kui lukk on peal, siis väljume kohe, ilma et Supabase koodini üldse jõuaksime!
+  if (window.realtimeAlgatatud === true) {
+    console.log("🛑 Realtime lukk: Kanal on juba liitunud või liitumas. Uut ei lubata!");
     return;
   }
 
-  console.log("⏳ Algatatakse unikaalne Realtime kuulamine Messages tabelile...");
+  // Paneme luku kohe peale, et järgmised funktsiooni kutsed siit läbi ei pääseks
+  window.realtimeAlgatatud = true;
+  console.log("⏳ Algatatakse ühekordne Realtime kuulamine Messages tabelile...");
 
-  supabase
-    .channel('messages-changes')
-    .on(
-      'postgres_changes', 
-      { 
-        event: '*', 
-        schema: 'public', 
-        table: 'Messages' 
-      }, 
-      payload => {
-        console.log("🔔 Messages muutus serveris:", payload);
-        // Käivitame sõnumite värskenduse, skipQuery=true hoiab ära otsingu katkemise
-        loadMessages(true); 
-      }
-    )
-    .subscribe((status) => {
-      console.log("📡 Realtime ühenduse staatus:", status);
-    });
+  try {
+    supabase
+      .channel('messages-changes')
+      .on(
+        'postgres_changes', 
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'Messages' 
+        }, 
+        payload => {
+          console.log("🔔 Messages muutus serveris:", payload);
+          loadMessages(true); 
+        }
+      )
+      .subscribe((status) => {
+        console.log("📡 Realtime ühenduse staatus:", status);
+        // Kui ühendus peaks mingil põhjusel serveri poolt katki kukkuma ja suletakse,
+        // siis alles siis vabastame luku, et süsteem saaks uuesti ühendada.
+        if (status === 'CLOSED') {
+          window.realtimeAlgatatud = false;
+        }
+      });
+  } catch (err) {
+    console.error("Realtime algatamise tõrge:", err);
+    window.realtimeAlgatatud = false; // Vea korral vabastame luku
+  }
 }
 
-// 2. Käivitame kuulamise kohe, kui see js fail brauseris laetakse
+// Käivitame kuulamise puhtalt
 algatRealtimeKuulamine();
+
 
 
 
